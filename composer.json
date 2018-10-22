@@ -1,5 +1,6 @@
 {
     "name": "vilin/gendiff",
+    "version": "0.1.0",
     "description": "cli programm for comparing json, yaml and ini files",
     "type": "project",
     "license": "MIT",
@@ -13,6 +14,9 @@
         "gendiff",
         "cli programm",
         "json yaml ini"
+    ],
+    "bin": [
+        "bin/gendiff"
     ],
     "scripts": {
         "phpcs": "phpcs"
