@@ -1,0 +1,15 @@
+{
+    "name": "vilin/gendiff",
+    "description": "cli programm for comparing json, yaml and ini files",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vladimir Ilin",
+            "email": "mark09072010@gmail.com"
+        }
+    ],
+    "require": {
+        "docopt/docopt": "^1.0"
+    }
+}
