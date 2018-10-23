@@ -24,7 +24,8 @@
           "App\\Tests\\": "tests"
         },
         "files": [
-            "src/Diff.php"
+            "src/Diff.php",
+            "src/Parser.php"
         ]
     },
     "scripts": {
@@ -35,7 +36,8 @@
     },
     "require": {
         "docopt/docopt": "^1.0",
-        "funct/funct": "^1.4"
+        "funct/funct": "^1.4",
+        "symfony/yaml": "^4.1"
     },
     "require-dev": {
         "phpunit/phpunit": "*",

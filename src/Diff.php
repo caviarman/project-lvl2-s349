@@ -9,8 +9,8 @@ function boolToStr($bool)
 
 function genDiff($path1, $path2)
 {
-    $before = json_decode(file_get_contents($path1), true);
-    $after = json_decode(file_get_contents($path2), true);
+    $before = parse($path1);
+    $after = parse($path2);
     $keys = array_unique(array_merge(array_keys($before), array_keys($after)));
     $arrOfLines = array_reduce($keys, function ($acc, $item) use ($before, $after) {
         if (array_key_exists($item, $before) && array_key_exists($item, $after)) {
