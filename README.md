@@ -3,3 +3,5 @@
 
 [Step 1](https://asciinema.org/a/0RgnIeFpH4adJuZl2QxFfWYPk)
 
+[Step 2](https://asciinema.org/a/Rw1OdHRW0BJlNFKJnruR1qgQS)
+
