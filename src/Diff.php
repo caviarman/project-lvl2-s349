@@ -17,20 +17,21 @@ function genDiff($path1, $path2)
             $beforeValue = is_bool($before[$item]) ? boolToStr($before[$item]) : $before[$item];
             $afterValue = is_bool($after[$item]) ? boolToStr($after[$item]) : $after[$item];
             if ($beforeValue === $afterValue) {
-                return array_merge($acc, array("  $item: $beforeValue"));
+                $acc = array_merge($acc, array("  $item: $beforeValue"));
             } else {
-                return array_merge($acc, array("- $item: $beforeValue"), array("+ $item: $afterValue"));
+                $acc = array_merge($acc, array("- $item: $beforeValue"), array("+ $item: $afterValue"));
             }
         }
         if (array_key_exists($item, $before) && !array_key_exists($item, $after)) {
             $beforeValue = is_bool($before[$item]) ? boolToStr($before[$item]) : $before[$item];
-            return array_merge($acc, array("- $item: $beforeValue"));
+            $acc = array_merge($acc, array("- $item: $beforeValue"));
         }
         if (!array_key_exists($item, $before) && array_key_exists($item, $after)) {
             $afterValue = is_bool($after[$item]) ? boolToStr($after[$item]) : $after[$item];
-            return array_merge($acc, array("+ $item: $afterValue"));
+            $acc = array_merge($acc, array("+ $item: $afterValue"));
         }
         return $acc;
     }, []);
-    return implode("\n", $arrOfLines);
+    $str = implode("\n", $arrOfLines);
+    return "$str\n";
 }
