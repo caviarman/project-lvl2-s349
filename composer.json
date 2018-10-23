@@ -1,6 +1,6 @@
 {
     "name": "vilin/gendiff",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "cli programm for comparing json, yaml and ini files",
     "type": "project",
     "license": "MIT",
@@ -18,11 +18,24 @@
     "bin": [
         "bin/gendiff"
     ],
+    "autoload": {
+        "psr-4": {
+          "App\\": "src",
+          "App\\Tests\\": "tests"
+        },
+        "files": [
+            "src/Diff.php"
+        ]
+    },
     "scripts": {
-        "phpcs": "phpcs"
+        "phpcs": "phpcs",
+        "phpcbf": "phpcbf",
+        "phpunit": "phpunit",
+        "test": "phpunit tests"
     },
     "require": {
-        "docopt/docopt": "^1.0"
+        "docopt/docopt": "^1.0",
+        "funct/funct": "^1.4"
     },
     "require-dev": {
         "phpunit/phpunit": "*",
