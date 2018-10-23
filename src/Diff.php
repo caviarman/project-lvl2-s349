@@ -1,16 +1,22 @@
 <?php
 
-namespace App;
+namespace App\Diff;
+
+use function App\Parser\parse;
 
 function boolToStr($bool)
 {
     return $bool ? 'true' : 'false';
 }
 
-function genDiff($path1, $path2)
+function genDiff($pathBefore, $pathAfter)
 {
-    $before = parse($path1);
-    $after = parse($path2);
+    $extBefore = pathinfo($pathBefore, PATHINFO_EXTENSION);
+    $extAfter = pathinfo($pathAfter, PATHINFO_EXTENSION);
+    $dataBefore = file_get_contents($pathBefore);
+    $dataAfter = file_get_contents($pathAfter);
+    $before = parse($extBefore, $dataBefore);
+    $after = parse($extAfter, $dataAfter);
     $keys = array_unique(array_merge(array_keys($before), array_keys($after)));
     $arrOfLines = array_reduce($keys, function ($acc, $item) use ($before, $after) {
         if (array_key_exists($item, $before) && array_key_exists($item, $after)) {

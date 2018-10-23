@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Parser;
 
 use Symfony\Component\Yaml\Yaml;
 
-function parse($path)
+function parse($extension, $data)
 {
     $parsers = [
         'json' => function ($data) {
@@ -14,7 +14,5 @@ function parse($path)
             return Yaml::parse($data);
         }
     ];
-    $extension = pathinfo($path, PATHINFO_EXTENSION);
-    $data = file_get_contents($path);
     return $parsers[$extension]($data);
 }
