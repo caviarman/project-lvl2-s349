@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Tests;
 
 use PHPUnit\Framework\TestCase;
 use function App\Diff\genDiff;
@@ -17,6 +17,12 @@ class DiffTest extends TestCase
     {
         $expected = file_get_contents(__DIR__ . "/fixtures/expected.txt");
         $actual = genDiff(__DIR__ . "/fixtures/before.yaml", __DIR__ . "/fixtures/after.yaml");
+        $this->assertEquals($expected, $actual);
+    }
+    public function testInnerJson()
+    {
+        $expected = file_get_contents(__DIR__ . "/fixtures/expectedInner.txt");
+        $actual = genDiff(__DIR__ . "/fixtures/beforeInner.json", __DIR__ . "/fixtures/afterInners.json");
         $this->assertEquals($expected, $actual);
     }
 }
