@@ -19,9 +19,11 @@ function genDiff($pathBefore, $pathAfter)
     $after = parse($extAfter, $dataAfter);
     $keys = array_unique(array_merge(array_keys($before), array_keys($after)));
     $arrOfLines = array_reduce($keys, function ($acc, $item) use ($before, $after) {
+        $valueBefore = $before[$item] ?? '';
+        $valueAfter = $after[$item] ?? '';
+        $beforeValue = is_bool($valueBefore) ? boolToStr($valueBefore) : $valueBefore;
+        $afterValue = is_bool($valueAfter) ? boolToStr($valueAfter) : $valueAfter;
         if (array_key_exists($item, $before) && array_key_exists($item, $after)) {
-            $beforeValue = is_bool($before[$item]) ? boolToStr($before[$item]) : $before[$item];
-            $afterValue = is_bool($after[$item]) ? boolToStr($after[$item]) : $after[$item];
             if ($beforeValue === $afterValue) {
                 $acc = array_merge($acc, array("  $item: $beforeValue"));
             } else {
@@ -29,11 +31,9 @@ function genDiff($pathBefore, $pathAfter)
             }
         }
         if (array_key_exists($item, $before) && !array_key_exists($item, $after)) {
-            $beforeValue = is_bool($before[$item]) ? boolToStr($before[$item]) : $before[$item];
             $acc = array_merge($acc, array("- $item: $beforeValue"));
         }
         if (!array_key_exists($item, $before) && array_key_exists($item, $after)) {
-            $afterValue = is_bool($after[$item]) ? boolToStr($after[$item]) : $after[$item];
             $acc = array_merge($acc, array("+ $item: $afterValue"));
         }
         return $acc;
