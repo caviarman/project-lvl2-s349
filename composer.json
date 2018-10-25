@@ -25,7 +25,9 @@
         },
         "files": [
             "src/Diff.php",
-            "src/Parser.php"
+            "src/Parser.php",
+            "src/Ast.php",
+            "src/Renderer.php"
         ]
     },
     "scripts": {

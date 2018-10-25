@@ -15,23 +15,31 @@ function getAst($before, $after)
         $valueAfter = $after[$item] ?? '';
         $beforeValue = is_bool($valueBefore) ? boolToStr($valueBefore) : $valueBefore;
         $afterValue = is_bool($valueAfter) ? boolToStr($valueAfter) : $valueAfter;
-        if (is_array($beforeValue) && is_array($afterValue)) {
-            return getAst($beforeValue, $afterValue);
-        }
+        
         if (array_key_exists($item, $before) && array_key_exists($item, $after)) {
-            if ($beforeValue === $afterValue) {
+            if (is_array($beforeValue) && is_array($afterValue)) {
+                $properties = [
+                    'type' => 'nested',
+                    'key' => $item,
+                    'beforeValue' => null,
+                    'afterValue' => null,
+                    'children' => getAst($beforeValue, $afterValue)
+                ];
+            } elseif ($beforeValue === $afterValue) {
                 $properties = [
                     'type' => 'unchanged',
                     'key' => $item,
                     'beforeValue' => $beforeValue,
-                    'afterValue' => $afterValue
+                    'afterValue' => $afterValue,
+                    'children' => null
                 ];
             } else {
                 $properties = [
                     'type' => 'changed',
                     'key' => $item,
                     'beforeValue' => $beforeValue,
-                    'afterValue' => $afterValue
+                    'afterValue' => $afterValue,
+                    'children' => null
                 ];
             }
         }
@@ -40,14 +48,17 @@ function getAst($before, $after)
                 'type' => 'deleted',
                 'key' => $item,
                 'beforeValue' => $beforeValue,
+                'afterValue' => null,
+                'children' => null
             ];
         }
         if (!array_key_exists($item, $before) && array_key_exists($item, $after)) {
             $properties = [
                 'type' => 'added',
                 'key' => $item,
-                'beforeValue' => $beforeValue,
-                'afterValue' => $afterValue
+                'beforeValue' => null,
+                'afterValue' => $afterValue,
+                'children' => null
             ];
         }
         return $properties;
