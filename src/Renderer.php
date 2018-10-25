@@ -4,35 +4,60 @@ namespace App\Renderer;
 
 use function Funct\Collection\flattenAll;
 
-function render($ast)
+function getSpace($level)
 {
-    return array_map(function ($item) {
-        [
-            'type' => $type,
-            'key' =>  $key,
-            'beforeValue' => $before,
-            'afterValue' => $after,
-            'children' => $children
-        ] = $item;
-    
-        switch ($type) {
-            case 'nested':
-                return [ "$key:", array_map(function ($item) {
-                    return render($item);
-                }, $children)];
-                break;
-            case 'unchanged':
-                return ["  $key: $before"];
-                break;
-            case 'changed':
-                return ["- $key: $before", "+ $key: $after"];
-                break;
-            case 'deleted':
-                return ["- $key: $before"];
-                break;
-            case 'added':
-                return ["+ $key: $after"];
-                break;
-        }
+    return str_repeat(' ', $level * 4 + 2);
+}
+
+function normalize($value, $level)
+{
+    if (!is_array($value)) {
+        return $value;
+    } else {
+        $keys = array_keys($value);
+        $arr = array_map(function ($item) use ($value, $level) {
+            return [ getSpace($level) . "$item: $value[$item]"];
+        }, $keys);
+    }
+    return implode("\n", flattenAll($arr));
+}
+
+function render($item, $level)
+{
+    [
+        'type' => $type,
+        'key' =>  $key,
+        'beforeValue' => $before,
+        'afterValue' => $after,
+        'children' => $children
+    ] = $item;
+
+    $before = normalize($before, $level);
+    $after = normalize($after, $level);
+
+    switch ($type) {
+        case 'nested':
+            return [ getSpace($level) . "  $key:", array_map(function ($item) use ($level) {
+                return render($item, $level + 1);
+            }, $children)];
+            
+        case 'unchanged':
+            return [getSpace($level) . "  $key: $before"];
+            
+        case 'changed':
+            return [getSpace($level) . "- $key: $before", getSpace($level) . "+ $key: $after"];
+            
+        case 'deleted':
+            return [getSpace($level) . "- $key: $before"];
+            
+        case 'added':
+            return [getSpace($level) . "+ $key: $after"];
+    }
+}
+function getPretty($ast)
+{
+    $arr = array_map(function ($item) {
+        return render($item, 0);
     }, $ast);
+    return implode("\n", flattenAll($arr));
 }

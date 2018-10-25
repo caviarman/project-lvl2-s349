@@ -6,6 +6,7 @@ use function App\Parser\parse;
 use function App\Ast\getAst;
 use function App\Renderer\render;
 use function Funct\Collection\flattenAll;
+use function App\Renderer\getPretty;
 
 function boolToStr($bool)
 {
@@ -26,5 +27,5 @@ function genDiff($pathBefore, $pathAfter)
     $after = parse(getExtension($pathAfter), getData($pathAfter));
     $ast = getAst($before, $after);
 
-    return implode("\n", flattenAll(render($ast)));
+    return getPretty($ast);
 }
