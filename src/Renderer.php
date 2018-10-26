@@ -22,7 +22,7 @@ function normalize($value, $level)
     return implode("", flattenAll(array_merge(["{"], $arr, [PHP_EOL . getSpace($level) . "  }"])));
 }
 
-function render($item, $level)
+function pretty($item, $level)
 {
     [
         'type' => $type,
@@ -38,7 +38,7 @@ function render($item, $level)
     switch ($type) {
         case 'nested':
             return [getSpace($level) . "  $key: {", array_map(function ($item) use ($level) {
-                return render($item, $level + 1);
+                return pretty($item, $level + 1);
             }, $children), getSpace($level) . "  }"];
             
         case 'unchanged':
@@ -55,10 +55,15 @@ function render($item, $level)
     }
 }
 
-function getPretty($ast)
+function render($ast, $format)
 {
-    $arr = array_map(function ($item) {
-        return render($item, 0);
-    }, $ast);
-    return implode("\n", flattenAll($arr));
+    $formats = [
+        'pretty' => function ($ast) {
+            $arr = array_map(function ($item) {
+                return pretty($item, 0);
+            }, $ast);
+            return implode("\n", flattenAll($arr));
+        }
+    ];
+    return $formats[$format]($ast);
 }

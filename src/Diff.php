@@ -21,10 +21,10 @@ function getData($path)
     return file_get_contents($path, true);
 }
 
-function genDiff($pathBefore, $pathAfter)
+function genDiff($pathBefore, $pathAfter, $format)
 {
     $before = parse(getExtension($pathBefore), getData($pathBefore));
     $after = parse(getExtension($pathAfter), getData($pathAfter));
     $ast = getAst($before, $after);
-    return getPretty($ast);
+    return render($ast, $format);
 }

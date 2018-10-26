@@ -26,4 +26,4 @@ Options:
 DOC;
 
 $prog = Docopt::handle($doc)->args;
-echo genDiff($prog['<firstFile>'], $prog['<secondFile>']);
+echo genDiff($prog['<firstFile>'], $prog['<secondFile>'], $prog['--format']);
