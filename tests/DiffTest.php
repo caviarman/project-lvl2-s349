@@ -26,4 +26,10 @@ class DiffTest extends TestCase
         $actual = genDiff(__DIR__ . "/fixtures/beforeInner.json", __DIR__ . "/fixtures/afterInner.json", 'pretty');
         $this->assertEquals($expected, $actual);
     }
+    public function testPlainJson()
+    {
+        $expected = file_get_contents(__DIR__ . "/fixtures/expectedPlain.txt");
+        $actual = genDiff(__DIR__ . "/fixtures/beforeInner.json", __DIR__ . "/fixtures/afterInner.json", 'plain');
+        $this->assertEquals($expected, $actual);
+    }
 }

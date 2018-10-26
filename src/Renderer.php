@@ -63,6 +63,9 @@ function render($ast, $format)
                 return pretty($item, 0);
             }, $ast);
             return implode("\n", flattenAll($arr));
+        },
+        'plain' => function ($ast) {
+            return 'Test is working!!!';
         }
     ];
     return $formats[$format]($ast);

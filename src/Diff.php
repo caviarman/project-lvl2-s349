@@ -6,7 +6,6 @@ use function App\Parser\parse;
 use function App\Ast\getAst;
 use function App\Renderer\render;
 use function Funct\Collection\flattenAll;
-use function App\Renderer\getPretty;
 
 function boolToStr($bool)
 {
