@@ -6,7 +6,7 @@ use function Funct\Collection\flattenAll;
 
 function getSpace($level)
 {
-    return str_repeat(' ', $level * 4 + 2);
+    return str_repeat(' ', $level * 4);
 }
 
 function normalize($value, $level)
@@ -16,11 +16,15 @@ function normalize($value, $level)
     } else {
         $keys = array_keys($value);
         $arr = array_map(function ($item) use ($value, $level) {
-            return [ getSpace($level) . "$item: $value[$item]"];
+            return [ PHP_EOL . getSpace($level + 1) . "$item: $value[$item]"];
         }, $keys);
     }
-    return implode("\n", flattenAll($arr));
+    array_unshift($arr, "{");
+    array_push($arr, PHP_EOL . getSpace($level) . "  }");
+    return implode("", flattenAll($arr));
 }
+
+
 
 function render($item, $level)
 {
@@ -37,9 +41,9 @@ function render($item, $level)
 
     switch ($type) {
         case 'nested':
-            return [ getSpace($level) . "  $key:", array_map(function ($item) use ($level) {
+            return [getSpace($level) . "  $key: {", array_map(function ($item) use ($level) {
                 return render($item, $level + 1);
-            }, $children)];
+            }, $children), getSpace($level) . "  }"];
             
         case 'unchanged':
             return [getSpace($level) . "  $key: $before"];
@@ -54,6 +58,7 @@ function render($item, $level)
             return [getSpace($level) . "+ $key: $after"];
     }
 }
+
 function getPretty($ast)
 {
     $arr = array_map(function ($item) {

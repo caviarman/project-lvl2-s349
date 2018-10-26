@@ -26,23 +26,4 @@ class DiffTest extends TestCase
         $actual = genDiff(__DIR__ . "/fixtures/beforeInner.json", __DIR__ . "/fixtures/afterInner.json");
         $this->assertEquals($expected, $actual);
     }
-    public function testParser()
-    {
-        $expected = ['common' => [
-            'setting1' => 'Value 1',
-            'setting2' => '200',
-            'setting3' => true,
-            'setting6' => ['key' => 'value']
-          ],
-          'group1' => [
-            'baz' => 'bas',
-            'foo' => 'bar',
-            'nest' => ['key' => 'value']
-          ],
-          'group2' => ['abc' => '12345']];
-
-        $content = file_get_contents(__DIR__ . "/fixtures/beforeInner.json");
-        $actual = parse('json', $content);
-        $this->assertEquals($expected, $actual);
-    }
 }

@@ -26,6 +26,5 @@ function genDiff($pathBefore, $pathAfter)
     $before = parse(getExtension($pathBefore), getData($pathBefore));
     $after = parse(getExtension($pathAfter), getData($pathAfter));
     $ast = getAst($before, $after);
-
     return getPretty($ast);
 }
