@@ -19,12 +19,8 @@ function normalize($value, $level)
             return [ PHP_EOL . getSpace($level + 1) . "$item: $value[$item]"];
         }, $keys);
     }
-    array_unshift($arr, "{");
-    array_push($arr, PHP_EOL . getSpace($level) . "  }");
-    return implode("", flattenAll($arr));
+    return implode("", flattenAll(array_merge(["{"], $arr, [PHP_EOL . getSpace($level) . "  }"])));
 }
-
-
 
 function render($item, $level)
 {
