@@ -55,6 +55,38 @@ function pretty($item, $level)
     }
 }
 
+function plain($item, $path)
+{
+    [
+        'type' => $type,
+        'key' =>  $key,
+        'beforeValue' => $before,
+        'afterValue' => $after,
+        'children' => $children
+    ] = $item;
+    
+    $before = is_array($before) ? 'complex value' : $before;
+    $after = is_array($after) ? 'complex value' : $after;
+    $name = "{$path}{$key}";
+    $nameForChildren = "{$path}{$key}.";
+    switch ($type) {
+        case 'nested':
+            return [array_map(function ($item) use ($nameForChildren) {
+                return plain($item, $nameForChildren);
+            }, $children)];
+        
+        case 'changed':
+            return ["Property '{$name}' was updated. From '{$before}' to '{$after}'"];
+            
+        case 'deleted':
+            return ["Property '{$name}' was removed"];
+            
+        case 'added':
+            return ["Property '{$name}' was added with value: '{$after}'"];
+    }
+}
+
+
 function render($ast, $format)
 {
     $formats = [
@@ -65,7 +97,10 @@ function render($ast, $format)
             return implode("\n", flattenAll($arr));
         },
         'plain' => function ($ast) {
-            return 'Test is working!!!';
+            $arr = array_map(function ($item) {
+                return plain($item, '');
+            }, $ast);
+            return implode("\n", array_filter(flattenAll($arr)));
         }
     ];
     return $formats[$format]($ast);

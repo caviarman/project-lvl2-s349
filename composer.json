@@ -1,6 +1,6 @@
 {
     "name": "vilin/gendiff",
-    "version": "0.5.2",
+    "version": "0.6.0",
     "description": "cli programm for comparing json, yaml and ini files",
     "type": "library",
     "license": "MIT",
