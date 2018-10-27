@@ -18,6 +18,9 @@ function render($ast, $format)
                 return plain($item, '');
             }, $ast);
             return implode("\n", array_filter(flattenAll($arr)));
+        },
+        'json' => function ($ast) {
+            return json_encode($ast, JSON_PRETTY_PRINT);
         }
     ];
     return $formats[$format]($ast);
