@@ -4,7 +4,15 @@ namespace App\Renderer;
 
 use function Funct\Collection\flattenAll;
 
-function plain($item, $path)
+function plain($ast)
+{
+    $arr = array_map(function ($item) {
+        return getPlain($item, '');
+    }, $ast);
+    return implode("\n", array_filter(flattenAll($arr)));
+}
+
+function getPlain($item, $path)
 {
     [
         'type' => $type,
@@ -20,17 +28,17 @@ function plain($item, $path)
     $nameForChildren = "{$path}{$key}.";
     switch ($type) {
         case 'nested':
-            return [array_map(function ($item) use ($nameForChildren) {
-                return plain($item, $nameForChildren);
-            }, $children)];
+            return array_map(function ($item) use ($nameForChildren) {
+                return getPlain($item, $nameForChildren);
+            }, $children);
         
         case 'changed':
-            return ["Property '{$name}' was updated. From '{$before}' to '{$after}'"];
+            return "Property '{$name}' was updated. From '{$before}' to '{$after}'";
             
         case 'deleted':
-            return ["Property '{$name}' was removed"];
+            return "Property '{$name}' was removed";
             
         case 'added':
-            return ["Property '{$name}' was added with value: '{$after}'"];
+            return "Property '{$name}' was added with value: '{$after}'";
     }
 }

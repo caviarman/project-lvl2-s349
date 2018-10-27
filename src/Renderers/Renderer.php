@@ -8,16 +8,10 @@ function render($ast, $format)
 {
     $formats = [
         'pretty' => function ($ast) {
-            $arr = array_map(function ($item) {
-                return pretty($item, 0);
-            }, $ast);
-            return implode("\n", flattenAll($arr));
+            return pretty($ast);
         },
         'plain' => function ($ast) {
-            $arr = array_map(function ($item) {
-                return plain($item, '');
-            }, $ast);
-            return implode("\n", array_filter(flattenAll($arr)));
+            return plain($ast);
         },
         'json' => function ($ast) {
             return json_encode($ast, JSON_PRETTY_PRINT);
