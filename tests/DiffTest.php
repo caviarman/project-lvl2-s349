@@ -4,7 +4,6 @@ namespace App\Tests;
 
 use PHPUnit\Framework\TestCase;
 use function App\Diff\genDiff;
-use function App\Parser\parse;
 
 class DiffTest extends TestCase
 {

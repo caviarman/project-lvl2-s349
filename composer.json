@@ -1,6 +1,6 @@
 {
     "name": "vilin/gendiff",
-    "version": "0.6.0",
+    "version": "0.6.1",
     "description": "cli programm for comparing json, yaml and ini files",
     "type": "library",
     "license": "MIT",
@@ -27,7 +27,9 @@
             "src/Diff.php",
             "src/Parser.php",
             "src/Ast.php",
-            "src/Renderer.php"
+            "src/Renderers/Renderer.php",
+            "src/Renderers/Pretty.php",
+            "src/Renderers/Plain.php"
         ]
     },
     "scripts": {
