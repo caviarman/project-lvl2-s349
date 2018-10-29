@@ -26,7 +26,7 @@ function getAst($before, $after)
         $afterValue = is_bool($valueAfter) ? boolToStr($valueAfter) : $valueAfter;
         if (array_key_exists($item, $before) && array_key_exists($item, $after)) {
             if (is_array($beforeValue) && is_array($afterValue)) {
-                $properties = makeNode('nested',$item, null, null, getAst($beforeValue, $afterValue));
+                $properties = makeNode('nested', $item, null, null, getAst($beforeValue, $afterValue));
             } elseif ($beforeValue === $afterValue) {
                 $properties = makeNode('unchanged', $item, $beforeValue, $afterValue);
             } else {
